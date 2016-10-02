@@ -1,9 +1,9 @@
-body{
-background: url(../img/daisee_black.png) no-repeat center center scroll;
-font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
-font-size:14px;
-line-height:1.42857143;
-color:#c8c8c8;
-background-color:#272b30;
-min-height: 850;
+body {
+	background: url(../img/daisee_black.png) no-repeat center center scroll;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size:14px;
+	line-height:1.42857143;
+	color:#c8c8c8;
+	background-color:#272b30;
+	min-height: 850;
 }

@@ -118,6 +118,7 @@ setInterval(function() {
           // get last X sec conso
           var xhrConso = new XMLHttpRequest();
           // format the request to retrieve the desired interval using monLastTimestamp
+          // "http://192.168.0.33:8080/api/4/get/watts/by_time/" + monLastTimestamp - 67 + "/" + monLastTimestamp+1
           xhrConso.open("GET", "https://raw.githubusercontent.com/Daisee/DzApp/master/dataSamples/watts", false);
           xhrConso.onreadystatechange = function () {
             if (xhrConso.readyState === 4) {

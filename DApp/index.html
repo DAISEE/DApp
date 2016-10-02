@@ -1,28 +1,23 @@
 <html>
 <head>
+
   <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
   <meta content="utf-8" http-equiv="encoding">
   <title>DzApp</title>
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-<!-- Latest compiled and minified CSS -->
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
-<link rel="stylesheet" href="./css/bootstrap.min.css"> 
-<link rel="stylesheet" href="./css/custom.css"> 
+  <!-- Latest compiled and minified CSS -->
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/custom.css">
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-
-<script src="abi.js"></script>
-<script src="main.js"></script>
-
-<script type="text/javascript">
-
-
-</script>
+  <script src="abi.js"></script>
+  <script src="main.js"></script>
 
 </head>
 
@@ -60,68 +55,69 @@
 
   <div class="container">
 
-      <div class ="row">
-        <div class="col-md-4">
-          <h4>My account</h4>
-          <h5>Address: <br><strong id="coinbase"></strong></h5>
-          <h5>ETH Balance (ether): <br><strong id="balance"></strong></h5>
-          <h5>Energy Balance (kWh): <br><strong id="energyBalance"></strong></h5>
-        </div>
-
-        <div class="col-md-8">
-          <h4>BlockChain status</h4>
-          <h5>Latest Block Number: <br><strong id="latestBlock"></strong></h5>
-          <h5>Latest Block Timestamp: <br><strong id="latestBlockTimestamp"></strong></h5>
-          <h5>Latest Block Hash: <br><strong id="latestBlockHash"></strong></h5>
-        </div>
+    <div class ="row">
+      <div class="col-md-4">
+        <h4>My account</h4>
+        <h5>Address: <br><strong id="coinbase"></strong></h5>
+        <h5>ETH Balance (ether): <br><strong id="balance"></strong></h5>
+        <h5>Energy Balance (kWh): <br><strong id="energyBalance"></strong></h5>
       </div>
 
-      <div class ="row">
-        <div class="col-md-4">
-          <h4>Energy monitoring</h4>
-          <h5>Last timestamp: <br><strong id="monLastTimestamp"></strong></h5>
-          <h5>Last minute comsumption: <br><strong id="monLastConso"></strong></h5>
-        </div>
+      <div class="col-md-8">
+        <h4>BlockChain status</h4>
+        <h5>Latest Block Number: <br><strong id="latestBlock"></strong></h5>
+        <h5>Latest Block Timestamp: <br><strong id="latestBlockTimestamp"></strong></h5>
+        <h5>Latest Block Hash: <br><strong id="latestBlockHash"></strong></h5>
+      </div>
+    </div>
 
-        <div class="col-md-8">
-        </div>
+    <div class ="row">
+      <div class="col-md-4">
+        <h4>Energy monitoring</h4>
+        <h5>Last timestamp: <br><strong id="monLastTimestamp"></strong></h5>
+        <h5>Last minute comsumption: <br><strong id="monLastConso"></strong></h5>
       </div>
 
-      <br>
-      <br>
-  </div>
+      <div class="col-md-8">
+      </div>
+    </div>
+
+    <br>
+    <br>
+  </div> <!-- container -->
+
   <div class="container">
 <!--
-    <div class="row">
-      <div>
-        <h2 class="sub-header">Operations</h2>
-        
-        <form class="form-inline" role="form">
-          <div class="form-group">
-            <label for="sell">Mettre à jour l'énergie disponible (uniquement pour le test) :</label>
-            <input type="number" class="form-control" id="prod">
-          </div>
-          <button type="submit" class="btn btn-primary">Produire</button>
-        </form>
-        <form class="form-inline" role="form">
-          <div class="form-group">
-            <label for="sell">Consommer de l'énergie (uniquement pour le test) :</label>
-            <input type="number" class="form-control" id="cons">
-          </div>
-          <button type="submit" class="btn btn-primary">Consommer</button>
-        </form>
+  <div class="row">
+    <div>
+      <h2 class="sub-header">Operations</h2>
+      
+      <form class="form-inline" role="form">
+        <div class="form-group">
+          <label for="sell">Mettre à jour l'énergie disponible (uniquement pour le test) :</label>
+          <input type="number" class="form-control" id="prod">
+        </div>
+        <button type="submit" class="btn btn-primary">Produire</button>
+      </form>
+      <form class="form-inline" role="form">
+        <div class="form-group">
+          <label for="sell">Consommer de l'énergie (uniquement pour le test) :</label>
+          <input type="number" class="form-control" id="cons">
+        </div>
+        <button type="submit" class="btn btn-primary">Consommer</button>
+      </form>
 
-        <form class="form-inline" role="form">
-          <div class="form-group">
-            <label for="sell">Buy energy :</label>
-            <input type="number" class="form-control" id="buy">
-          </div>
-          <button type="submit" class="btn btn-primary">Buy</button>
-        </form>
-      </div>
-       <br>
-      <br>     
+      <form class="form-inline" role="form">
+        <div class="form-group">
+          <label for="sell">Buy energy :</label>
+          <input type="number" class="form-control" id="buy">
+        </div>
+        <button type="submit" class="btn btn-primary">Buy</button>
+      </form>
     </div>
+     <br>
+    <br>     
+  </div>
 -->
 
     <div class="row">
@@ -144,10 +140,7 @@
       </div>
     </div>
 
-  </div>
-
-</div>
-
+  </div> <!-- container -->
 
 </body>
 
