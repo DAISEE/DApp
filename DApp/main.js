@@ -13,6 +13,9 @@ var SolidityCoder = require("web3/lib/solidity/coder.js");
 var account         = '0x98181b49bf309364fba5d75ff57d30509b2a24fd'; 
 var contractAddress = '0x6e3a3e88694b4b813c23e5e0a2e732e3d138a25f'; 
 
+// var account         = '0x07d3eAd725B9Dcc43A65393A8491348F315b9eF8'; 
+// var contractAddress = '0x16fbc52d65c6a2dd7a73552fcfe50b6067bab294'; 
+
 web3.eth.defaultAccount = account;
 
 var now = new Date();
@@ -101,6 +104,50 @@ setInterval(function() {
   // Contract energy balance: call (not state changing)
   var energyBalance = contract.getEnergyBalance.call();
   $('#energyBalance').text(energyBalance);
+
+  // #Data Handling
+  // get current time from API (vanilla js)
+  var xhrTime = new XMLHttpRequest();
+  xhrTime.open("GET", "http://127.0.0.1:3003/dataSamples/time", false);
+  xhrTime.onreadystatechange = function () {
+    if (xhrTime.readyState === 4) {
+      if (xhrTime.status === 200) {
+        var monLastTimestamp = JSON.parse(xhrTime.responseText).data;
+        $('#monLastTimestamp').text(monLastTimestamp);
+
+          // get last X sec conso
+          var xhrConso = new XMLHttpRequest();
+          // format the request to retrieve the desired interval using monLastTimestamp
+          xhrConso.open("GET", "http://127.0.0.1:3003/dataSamples/watts", false);
+          xhrConso.onreadystatechange = function () {
+            if (xhrConso.readyState === 4) {
+              if (xhrConso.status === 200) {
+                var consoData = JSON.parse(xhrConso.responseText).data;
+                var monLastMinConso = 0;
+                for (var i = consoData.length - 1; i >= 0; i--) {
+                  if (consoData[i].timestamp >= monLastTimestamp - 60){
+                    monLastMinConso += consoData[i].value;
+                  }
+                }
+                $('#monLastConso').text(monLastMinConso);
+
+              } else {
+                console.log('Error: ' + xhrConso.status); 
+              }
+            }
+          };
+          xhrConso.send(null);
+          //End Get last conso
+
+      } else {
+        console.log('Error: ' + xhrTime.status); 
+      }
+    }
+  };
+  xhrTime.send(null);
+
+
+
 
   $('#startedAt').text(now);
 

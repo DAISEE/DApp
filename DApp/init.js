@@ -101,6 +101,13 @@ setInterval(function() {
   var energyBalance = contract.getEnergyBalance.call();
   $('#energyBalance').text(energyBalance);
 
+  // Data handling
+  // Retrieve data from REST Citizen Watt API
+
+  // Push data to the smart contract
+
+  // If conso > consoTrigger buy from producer
+
   $('#startedAt').text(now);
 
 }, 1000);
