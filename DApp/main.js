@@ -108,7 +108,7 @@ setInterval(function() {
   // #Data Handling
   // get current time from API (vanilla js)
   var xhrTime = new XMLHttpRequest();
-  xhrTime.open("GET", "http://127.0.0.1:3003/dataSamples/time", false);
+  xhrTime.open("GET", "https://raw.githubusercontent.com/Daisee/DzApp/master/dataSamples/time", false);
   xhrTime.onreadystatechange = function () {
     if (xhrTime.readyState === 4) {
       if (xhrTime.status === 200) {
@@ -118,7 +118,7 @@ setInterval(function() {
           // get last X sec conso
           var xhrConso = new XMLHttpRequest();
           // format the request to retrieve the desired interval using monLastTimestamp
-          xhrConso.open("GET", "http://127.0.0.1:3003/dataSamples/watts", false);
+          xhrConso.open("GET", "https://raw.githubusercontent.com/Daisee/DzApp/master/dataSamples/watts", false);
           xhrConso.onreadystatechange = function () {
             if (xhrConso.readyState === 4) {
               if (xhrConso.status === 200) {
