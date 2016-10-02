@@ -124,10 +124,15 @@ setInterval(function() {
             if (xhrConso.readyState === 4) {
               if (xhrConso.status === 200) {
                 var consoData = JSON.parse(xhrConso.responseText).data;
-                var monLastMinConso = 0;
+              var monLastMinConso = 0;
+                var priorSec=0;
                 for (var i = consoData.length - 1; i >= 0; i--) {
-                  if (consoData[i].timestamp >= monLastTimestamp - 60){
-                    monLastMinConso += consoData[i].value;
+                  if (consoData[i].timestamp!=priorSec) {
+                    // We take the first value of a second, it could be more precise doing an average
+                    priorSec =consoData[i].timestamp;
+                    if (consoData[i].timestamp >= monLastTimestamp - 60){
+                      monLastMinConso += consoData[i].value;
+                    }
                   }
                 }
                 $('#monLastConso').text(monLastMinConso);
