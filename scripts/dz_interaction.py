@@ -1,6 +1,7 @@
 import json
 import requests
 import time
+import yaml
 
 from eth_rpc_client import Client
 client = Client(host="127.0.0.1", port="8545")
@@ -10,14 +11,20 @@ def padhexa(s):
     return s[2:].zfill(64)
 
 
-def getEnergySum(t0, t1):
-    sumEnergy = 0
-    headers = {'Content-Type': 'application/json', }
-    data = 'login=debian&password=debian'
+def getDateTime(url, data, headers):
 
-    # TODO : URL as a parameter
-    result = requests.post('http://192.168.0.34:8080/api/4/get/watts/by_time/' + str(t0) + '/' + str(t1),
-                           headers=headers, data=data)
+    try:
+        result = requests.post(url + '/api/time', headers=headers, data=data)
+        parsed_json = json.loads(result.text)
+        return parsed_json['data']
+    except json.JSONDecodeError as e:
+        print(e)
+
+
+def getEnergySum(url, data, headers, t0, t1):
+    sumEnergy = 0
+
+    result = requests.post(url + '/api/4/get/watts/by_time/' + str(t0) + '/' + str(t1), headers=headers, data=data)
     parsed_json = json.loads(result.text)
     print('=> 1 = ' + str(parsed_json['data']))
 
@@ -29,48 +36,42 @@ def getEnergySum(t0, t1):
     return sumEnergy
 
 
-def getDateTime():
-    headers = {'Content-Type': 'application/json', }
-    data = 'login=debian&password=debian'
+with open("parameters.yml", 'r') as stream:
+    try:
+        param = yaml.load(stream)
+    except yaml.YAMLError as e:
+        print(e)
 
-    # TODO: URL as a parameter
-    result = requests.post('http://192.168.0.34:8080/api/time',
-                           headers=headers, data=data)
-    parsed_json = json.loads(result.text)
-    return parsed_json['data']
+# Defintion of pine used
+pine = param["usedPine"]["id"]
+pineURL = param[pine]["url"]
+pineLogin = param[pine]["login"]
+pinePswd = param[pine]["password"]
+headers = {'Content-Type': 'application/json', }
+data = 'login=' + pineLogin + '&password=' + pinePswd
 
 
-# DAISEE smart-contract address on BC
-contractAddress = '0x124f1fb67f450bd3234ec0e12d519fa61e6bc543'
-
-# PINE parameters (to externalize in a parameter file)
-pine1 = {'address': '0x520f9b737b97a52945075dbf393d29adca000cca', 'url': 'http://192.168.0.34:8080', 'typ': 'C'}
-pine2 = {'address': '0x98181b49bf309364fba5d75ff57d30509b2a24fd', 'url': 'http://192.168.0.29:8080', 'typ': 'P'}
-pine3 = {'address': '0x8915cf74dff23cbca59f356317098d4cf3d47203', 'url': 'http://192.168.0.xx:8080', 'typ': 'P'}
-
-# used board (to externalize in a parameter file)
-pine = pine1
-
-time0 = getDateTime()
+time0 = getDateTime(pineURL, data, headers)
+print(time0)
 
 while 1:
     # delay to define
     time.sleep(20)
-    time1 = getDateTime()
-    sumWatt = getEnergySum(time0, time1)
+    time1 = getDateTime(pineURL, data, headers)
+    sumWatt = getEnergySum(pineURL, data, headers, time0, time1)
 
     time0 = time1
 
     # Consumer
-    if pine['typ'] == 'C':
+    if param[pine]['typ'] == 'C':
         # to update Energy balance (consumer)
-        hashConsumeEnergy = "298d65a1"
-        hashData = hashConsumeEnergy + padhexa(hex(sumWatt))
-        response = client.send_transaction(_from=pine['address'], to=contractAddress, data=hashData)
+        hashData = param['contract']['fctConsumeEnergy'] + padhexa(hex(sumWatt))
+        # pine2 for debug (laptop)
+        response = client.send_transaction(_from=param['pine2']['address'], to=param['contract']['address'], data=hashData)
 
     # Producer
     else:
         # to update Energy balance (producer)
-        hashSetProduction = "567cc2b6"
-        hashData = hashSetProduction + padhexa(hex(sumWatt))
-        response = client.send_transaction(_from=pine['address'], to=contractAddress, data=hashData)
+        # pine2 for debug (laptop)
+        hashData = param['contract']['fctSetProduction'] + padhexa(hex(sumWatt))
+        response = client.send_transaction(_from=param['pine2']['address'], to=param['contract']['address'], data=hashData)
