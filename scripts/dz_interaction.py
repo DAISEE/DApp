@@ -64,7 +64,7 @@ while 1:
     time1 = getDateTime(pineURL, data, headers)
     sumWatt = getEnergySum(pineURL, data, headers, time0, time1)
 
-    print('timestamp : ' + time.ctime(int(time1)) + ', sumWatt = ' + str(sumWatt))
+    print('time : ' + time.strftime("%D %H:%M:%S", time.localtime(int(time1))) + ', sumWatt = ' + str(sumWatt))
 
     time0 = time1
 
