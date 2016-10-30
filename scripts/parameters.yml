@@ -11,7 +11,7 @@ pine1:
 pine2:
   address: '0x98181b49bf309364fba5d75ff57d30509b2a24fd'
   url: 'http://192.168.0.29:8080'
-  typ: 'C'
+  typ: 'P'
   login: 'debian'
   password: 'debian'
 pine3:
