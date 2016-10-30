@@ -1,24 +1,29 @@
 contract:
   address: '0x124f1fb67f450bd3234ec0e12d519fa61e6bc543'
+  fctEnergyBalance: '99e1d301'
   fctConsumeEnergy:  '298d65a1'
-  fctProduction:  '567cc2b6'
+  fctSetProduction:  '567cc2b6'
+  fctBuyEnergy: '36fd7e1b'
 pine1:
   address: '0x520f9b737b97a52945075dbf393d29adca000cca'
   url: 'http://192.168.0.40:8080'
   typ: 'C'
   login: 'debian'
   password: 'debian'
+  limit: 1000
 pine2:
   address: '0x98181b49bf309364fba5d75ff57d30509b2a24fd'
   url: 'http://192.168.0.29:8080'
   typ: 'P'
   login: 'debian'
   password: 'debian'
+  limit: 1000
 pine3:
   address: '0x8915cf74dff23cbca59f356317098d4cf3d47203'
   url: 'http://192.168.0.xx:8080'
   typ: 'P'
   login: 'debian'
   password: 'debian'
+  limit: 1000
 usedPine:
   id:  'pine1'
