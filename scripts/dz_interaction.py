@@ -1,10 +1,15 @@
 import json
 import requests
+import serial
 import time
 import yaml
 
 from eth_rpc_client import Client
 client = Client(host="127.0.0.1", port="8545")
+
+ser = serial.Serial('/dev/ttyACM2', 9600) #to update
+relai4_status = 0
+lampStatus = 0
 
 
 def padhexa(s):
@@ -45,6 +50,17 @@ def getEnergySum(url, data, headers, t0, t1):
     return sumEnergy
 
 
+def turnRelay(relai):
+    global relai4_status
+
+    if(relai == "4"):
+        if relai4_status == 0:
+            ser.write(str("4").encode())
+            relai4_status = 1
+        else:
+            ser.write(str("4").encode())
+            relai4_status = 0
+
 with open("parameters.yml", 'r') as stream:
     try:
         param = yaml.load(stream)
@@ -61,12 +77,25 @@ headers = {'Content-Type': 'application/json', }
 data = 'login=' + pineLogin + '&password=' + pinePswd
 
 
+# initialiation de la lampe
+## get the energy balance
+EnergyBalance = int(client.call(_from=param['pine2']['address'], to=param['contract']['address'],
+                                data=param['contract']['fctEnergyBalance'], block="latest"), 0)
+print('EnergyBalance = ' + str(EnergyBalance))
+
+if EnergyBalance >= param['pine2']['limit'] :
+    # on allume la lampe
+    turnRelay("4")
+    lampStatus = int(ser.read())
+
 time0 = getDateTime(pineURL, data, headers)
 
 
 while 1:
     # delay to define
     time.sleep(20)
+
+    # récupération de l'énergie consommée ou produite
     time1 = getDateTime(pineURL, data, headers)
     sumWatt = getEnergySum(pineURL, data, headers, time0, time1)
 
@@ -81,7 +110,7 @@ while 1:
 
             # to update Energy balance (consumer)
             hashData = param['contract']['fctConsumeEnergy'] + padhexa(hex(sumWatt))
-            # using pine2 directly for test and debug
+            # DEBUG : using pine2 directly for test and debug
             response = client.send_transaction(_from=param['pine2']['address'], to=param['contract']['address'], data=hashData)
 
             # get the energy balance
@@ -90,11 +119,18 @@ while 1:
 
             # if energy balance is too low, a energy transaction is triggered
             if EnergyBalance < param['pine2']['limit']:
-                watt = 1000
+                print(lampStatus)
+                if lampStatus == 1:
+                    turnRelay("4")
+                    lampStatus = int(ser.read())
+                watt = 350 # to adjust
                 seller = param['pine1']['address'].replace('0x', '')
                 hashData = param['contract']['fctBuyEnergy'] + padaddress(seller) + padhexa(hex(watt))
                 response = client.send_transaction(_from=param['pine2']['address'], to=param['contract']['address'], data=hashData)
-
+                time.sleep(2)
+                turnRelay("4")
+                lampStatus = int(ser.read())
+                print(lampStatus)
 
         # Producer
         else:
