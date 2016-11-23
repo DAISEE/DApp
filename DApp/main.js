@@ -10,11 +10,9 @@ if (typeof web3 !== 'undefined') {
 // NOTE: Need to compile with browserify init.js -o main.js
 var SolidityCoder = require("web3/lib/solidity/coder.js");
 
-var account         = '0x98181b49bf309364fba5d75ff57d30509b2a24fd'; 
-var contractAddress = '0x6e3a3e88694b4b813c23e5e0a2e732e3d138a25f'; 
-
-// var account         = '0x07d3eAd725B9Dcc43A65393A8491348F315b9eF8'; 
-// var contractAddress = '0x16fbc52d65c6a2dd7a73552fcfe50b6067bab294'; 
+var account         = '0x98181b49bf309364fba5d75ff57d30509b2a24fd'; // Manjaro
+//var account       = '0xb6a69f45296a9f0f7a6dfd5b8ffb61bb5ab189ef'; // CitizenWatt
+var contractAddress = '0x124f1fb67f450bd3234ec0e12d519fa61e6bc543'; //daisee005
 
 web3.eth.defaultAccount = account;
 
@@ -105,59 +103,12 @@ setInterval(function() {
   var energyBalance = contract.getEnergyBalance.call();
   $('#energyBalance').text(energyBalance);
 
-  // #Data Handling
-  // get current time from API (vanilla js)
-  var xhrTime = new XMLHttpRequest();
-  xhrTime.open("GET", "https://raw.githubusercontent.com/Daisee/DzApp/master/dataSamples/time", false);
-  xhrTime.onreadystatechange = function () {
-    if (xhrTime.readyState === 4) {
-      if (xhrTime.status === 200) {
-        var monLastTimestamp = JSON.parse(xhrTime.responseText).data;
-        $('#monLastTimestamp').text(monLastTimestamp);
-
-          // get last X sec conso
-          var xhrConso = new XMLHttpRequest();
-          // format the request to retrieve the desired interval using monLastTimestamp
-          // "http://192.168.0.33:8080/api/4/get/watts/by_time/" + monLastTimestamp - 67 + "/" + monLastTimestamp+1
-          xhrConso.open("GET", "https://raw.githubusercontent.com/Daisee/DzApp/master/dataSamples/watts", false);
-          xhrConso.onreadystatechange = function () {
-            if (xhrConso.readyState === 4) {
-              if (xhrConso.status === 200) {
-                var consoData = JSON.parse(xhrConso.responseText).data;
-              var monLastMinConso = 0;
-                var priorSec=0;
-                for (var i = consoData.length - 1; i >= 0; i--) {
-                  if (consoData[i].timestamp!=priorSec) {
-                    // We take the first value of a second, it could be more precise doing an average
-                    priorSec =consoData[i].timestamp;
-                    if (consoData[i].timestamp >= monLastTimestamp - 60){
-                      monLastMinConso += consoData[i].value;
-                    }
-                  }
-                }
-                $('#monLastConso').text(monLastMinConso);
-
-              } else {
-                console.log('Error: ' + xhrConso.status); 
-              }
-            }
-          };
-          xhrConso.send(null);
-          //End Get last conso
-
-      } else {
-        console.log('Error: ' + xhrTime.status); 
-      }
-    }
-  };
-  xhrTime.send(null);
-
-
-
-
   $('#startedAt').text(now);
 
 }, 1000);
+
+
+
 
 // Get function hashes
 // TODO: also extract input parameter types for later decoding

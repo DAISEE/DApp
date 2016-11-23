@@ -9,8 +9,9 @@ if (typeof web3 !== 'undefined') {
 // NOTE: Need to compile with browserify init.js -o main.js
 var SolidityCoder = require("web3/lib/solidity/coder.js");
 
-var account         = '0x98181b49bf309364fba5d75ff57d30509b2a24fd'; 
-var contractAddress = '0x6e3a3e88694b4b813c23e5e0a2e732e3d138a25f'; 
+var account         = '0x98181b49bf309364fba5d75ff57d30509b2a24fd'; // Manjaro
+//var account       = '0xb6a69f45296a9f0f7a6dfd5b8ffb61bb5ab189ef'; // CitizenWatt
+var contractAddress = '0x124f1fb67f450bd3234ec0e12d519fa61e6bc543'; //daisee005
 
 web3.eth.defaultAccount = account;
 
@@ -101,16 +102,12 @@ setInterval(function() {
   var energyBalance = contract.getEnergyBalance.call();
   $('#energyBalance').text(energyBalance);
 
-  // Data handling
-  // Retrieve data from REST Citizen Watt API
-
-  // Push data to the smart contract
-
-  // If conso > consoTrigger buy from producer
-
   $('#startedAt').text(now);
 
 }, 1000);
+
+
+
 
 // Get function hashes
 // TODO: also extract input parameter types for later decoding
