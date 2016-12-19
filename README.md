@@ -1,4 +1,4 @@
-# DzApp
+# DApp
 
 ![DzApp screenshot](/images/DzApp.png)  
 
