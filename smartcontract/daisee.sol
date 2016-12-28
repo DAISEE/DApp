@@ -1,11 +1,12 @@
+pragma solidity ^0.4.0;
 contract Daisee {
     
     // variables 
 
     //// tarif de l'énergie en finney
-    uint public rate;
+    uint private rate;
     //// utilisateurs
-    address public owner; // non utlisé pour le moment
+    address public owner; // non utilisé pour le moment
     mapping (address => uint) energyProduction;
     mapping (address => uint) energyBalance;
     mapping (address => uint) energyConsumption;
@@ -13,10 +14,10 @@ contract Daisee {
 
     // constructeur
     function Daisee() {
-        rate = 15 finney; // (= 0.015 ether = 0.15 euros)
+        rate = 15 finney; // (= 0.015 ethers)
     }
        
-    // défintion des events pour les appels à partir des clients légers
+    // définition des events pour les appels à partir des clients légers (non implémenté)
     event Prod(address from, uint kwh);
     event Cons(address from, uint energy);
     event Buy(address from, address to, uint energy); 
@@ -70,5 +71,4 @@ contract Daisee {
     function getRate() returns (uint energyRate) {
         return rate;
     }
-        
 }
