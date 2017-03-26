@@ -10,8 +10,7 @@ app.debug = True
 
 @app.route("/")
 def init():
-    data = fct.getconfig()
-    return render_template('index.html', name=data['name'], typ=data['typ'])
+    return render_template('index.html')
 
 
 @app.route("/getconfig/")

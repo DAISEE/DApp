@@ -12,14 +12,21 @@ with open('config.yml', 'r') as stream:
 
 def getconfig():
 
-    # Node info
-    config = {'name': param['nodes']['node0']['name'], 'address': param['nodes']['node0']['address']}
-    if param['nodes']['node0']['type'] == 'P':
-        config['typ'] = 'producer'
-    else:
-        config['typ'] = 'consumer'
+    config = []
 
     # Smartcontract address
-    config['contract'] = param['contract']['address']
+    contract = {'name': 'Contract', 'address': param['contract']['address']}
+    config.append(contract.copy())
+
+    nodes = param['nodes']['list']
+    # Nodes info
+    for node in nodes:
+        nodeData = {'id': node, 'name': param['nodes'][node]['name'], 'address': param['nodes'][node]['address']}
+        if param['nodes'][node]['type'] == 'P':
+            nodeData['typ'] = 'producer'
+        else:
+            nodeData['typ'] = 'consumer'
+
+        config.append(nodeData.copy())
 
     return config

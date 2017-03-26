@@ -56,7 +56,7 @@
 
     <div class ="row">
       <div class="col-md-4">
-        <h4>My account - {{ name }} ({{ typ }})</h4>
+        <h4>My account - <font id="nodeName"></font> (<font id="nodeType"></font>)</h4>
         <h5>Address: <br><strong id="coinbase"></strong></h5>
         <h5>ETH Balance (ether): <br><strong id="balance"></strong></h5>
         <h5>Energy Balance (watt): <br><strong id="energyBalance"></strong></h5>
@@ -74,42 +74,9 @@
   </div> <!-- container -->
 
   <div class="container">
-<!--
-  <div class="row">
-    <div>
-      <h2 class="sub-header">Operations</h2>
-      
-      <form class="form-inline" role="form">
-        <div class="form-group">
-          <label for="sell">Mettre à jour l'énergie disponible (uniquement pour le test) :</label>
-          <input type="number" class="form-control" id="prod">
-        </div>
-        <button type="submit" class="btn btn-primary">Produire</button>
-      </form>
-      <form class="form-inline" role="form">
-        <div class="form-group">
-          <label for="sell">Consommer de l'énergie (uniquement pour le test) :</label>
-          <input type="number" class="form-control" id="cons">
-        </div>
-        <button type="submit" class="btn btn-primary">Consommer</button>
-      </form>
-
-      <form class="form-inline" role="form">
-        <div class="form-group">
-          <label for="sell">Buy energy :</label>
-          <input type="number" class="form-control" id="buy">
-        </div>
-        <button type="submit" class="btn btn-primary">Buy</button>
-      </form>
-    </div>
-     <br>
-    <br>     
-  </div>
--->
-
     <div class="row">
       <div>
-        <h2 class="sub-header">Latest transactions <font size =4> (since <srong id="startedAt"></strong>)</font>:</h2>
+        <h2 class="sub-header">Latest transactions <font size =4> (since <strong id="startedAt"></strong>)</font>:</h2>
         <div class="table-responsive">
           <table class="table table-striped">
             <thead>

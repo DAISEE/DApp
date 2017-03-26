@@ -1,6 +1,7 @@
 contract:
   address: "0x124f1fb67f450bd3234ec0e12d519fa61e6bc543"
 nodes:
+  list: ['node0','node1']
   node0:
     name: "Node 1"
     type: "P"
@@ -8,7 +9,7 @@ nodes:
   node1:
     name: "Node 2"
     type: "C"
-    address: ""
+    address: "0xc4d29040ea964debc19f1e3916c66fe9dd13fd44"
   node2:
     name: "Node 3"
     type: "C"

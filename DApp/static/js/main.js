@@ -17,12 +17,15 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
     var json = JSON.stringify(data.result);
     var config = JSON.parse(json);
     console.log(config)
-    var account = config.address;
-    var contractAddress  = config.contract;
 
-    //TODO : à récupérer via json
-    var accountRPi1     = '0xc4d29040ea964debc19f1e3916c66fe9dd13fd44';
-
+    for (i in config) {
+        if (config[i].name == 'Contract') { var contractAddress = config[i].address; }
+        else if (config[i].id == 'node0') {
+            var account = config[i].address;
+            $('#nodeName').text(config[i].name);
+            $('#nodeType').text(config[i].typ);
+            }
+    }
 
     web3.eth.defaultAccount = account;
 
@@ -50,16 +53,9 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
       for (var index = 0; index < block.transactions.length; index++) {
         var t = block.transactions[index];
 
-        // Decode from
-        //var from = t.from==account ? "me" : t.from;
-        //var to = t.to==account ? "me" : t.to;
-        if (t.from==account) { var from = "me"; }
-        else if (t.from==accountRPi1) { var from = "Node2"; }
-        else { from = t.from; }
-
-        if (t.to==account) { var to = "me"; }
-        else if (t.to==accountRPi1) { var to = "Node2"; }
-        else { to = t.to; }
+        // Decode "from" and "to"
+        var from = t.from==account ? "me" : t.from;
+        var to = t.to==account ? "me" : t.to;
 
         // Decode function
         var func = findFunctionByHash(functionHashes, t.input);
