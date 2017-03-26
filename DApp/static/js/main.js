@@ -8,113 +8,124 @@ if (typeof web3 !== 'undefined') {
 }
 
 // NOTE: Need to compile with browserify init.js -o main.js
+// attention modification manuelle du main.js => ne pas utiliser browserify
 var SolidityCoder = require("web3/lib/solidity/coder.js");
 
-var account         = '0x98181b49bf309364fba5d75ff57d30509b2a24fd'; // Manjaro
-var contractAddress = '0x124f1fb67f450bd3234ec0e12d519fa61e6bc543'; // Daisee005
-var accountRPi1     = '0xc4d29040ea964debc19f1e3916c66fe9dd13fd44';
+var ip = location.host;
+console.log(ip)
+$.getJSON('http://' + ip  + '/getconfig/', function (data) {
+    var json = JSON.stringify(data.result);
+    var config = JSON.parse(json);
+    console.log(config)
+    var account = config.address;
+    var contractAddress  = config.contract;
+
+    //TODO : à récupérer via json
+    var accountRPi1     = '0xc4d29040ea964debc19f1e3916c66fe9dd13fd44';
 
 
-web3.eth.defaultAccount = account;
+    web3.eth.defaultAccount = account;
 
-var now = new Date();
+    var now = new Date();
 
-// Assemble function hashes
-var functionHashes = getFunctionHashes(abiArray);
+    // Assemble function hashes
+    var functionHashes = getFunctionHashes(abiArray);
 
-// Get hold of contract instance
-var contract = web3.eth.contract(abiArray).at(contractAddress);
+    // Get hold of contract instance
+    var contract = web3.eth.contract(abiArray).at(contractAddress);
 
-// Setup filter to watch transactions
-var filter = web3.eth.filter('latest');
-//var filter = web3.eth.filter({fromBlock:0, toBlock: 'latest', address: contractAddress, 'topics':['0x' + web3.sha3('newtest(string,uint256,string,string,uint256)')]});
+    // Setup filter to watch transactions
+    var filter = web3.eth.filter('latest');
+    //var filter = web3.eth.filter({fromBlock:0, toBlock: 'latest', address: contractAddress, 'topics':['0x' + web3.sha3('newtest(string,uint256,string,string,uint256)')]});
 
-filter.watch(function(error, result){
+    filter.watch(function(error, result){
 
-  if (error) return;
-  
-  var block = web3.eth.getBlock(result, true);
-  console.log('block #' + block.number);
+      if (error) return;
 
-  console.dir(block.transactions);
+      var block = web3.eth.getBlock(result, true);
+      console.log('block #' + block.number);
 
-  for (var index = 0; index < block.transactions.length; index++) {
-    var t = block.transactions[index];
+      console.dir(block.transactions);
 
-    // Decode from
-    //var from = t.from==account ? "me" : t.from;
-    //var to = t.to==account ? "me" : t.to;
-    if (t.from==account) { var from = "me"; }
-    else if (t.from==accountRPi1) { var from = "Node2"; }
-    else { from = t.from; }
+      for (var index = 0; index < block.transactions.length; index++) {
+        var t = block.transactions[index];
 
-    if (t.to==account) { var to = "me"; }
-    else if (t.to==accountRPi1) { var to = "Node2"; }
-    else { to = t.to; }
+        // Decode from
+        //var from = t.from==account ? "me" : t.from;
+        //var to = t.to==account ? "me" : t.to;
+        if (t.from==account) { var from = "me"; }
+        else if (t.from==accountRPi1) { var from = "Node2"; }
+        else { from = t.from; }
 
-    // Decode function
-    var func = findFunctionByHash(functionHashes, t.input);
+        if (t.to==account) { var to = "me"; }
+        else if (t.to==accountRPi1) { var to = "Node2"; }
+        else { to = t.to; }
 
-    if (func == 'setProduction') {
-      var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
-      console.dir(inputData);
-      $('#transactions').append('<tr><td>' + t.blockNumber + 
-        '</td><td>' + from + 
-        '</td><td>' + "DAISEE" + 
-        '</td><td>setProduction(' + inputData[0].toString() + ')</td></tr>');
-    } else if (func == 'consumeEnergy') {
-      var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
-      console.dir(inputData);
-      $('#transactions').append('<tr><td>' + t.blockNumber + 
-        '</td><td>' + from + 
-        '</td><td>' + "DAISEE" + 
-        '</td><td>consumeEnergy(' + inputData[0].toString() + ')</td></tr>');
-    } else if (func == 'buyEnergy') {
-      var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
-      console.dir(inputData);
-      $('#transactions').append('<tr><td>' + t.blockNumber + 
-        '</td><td>' + from + 
-        '</td><td>' + "DAISEE" + 
-        '</td><td>buyEnergy(' + inputData[0].toString() + ')</td></tr>');
-	  } else {
-      // Default log => for debug
-      $('#transactions').append('<tr><td>' + t.blockNumber + '</td><td>' + from + '</td><td>' + to + '</td><td>' + t.input + '</td></tr>')
-    }
-  }
-});
+        // Decode function
+        var func = findFunctionByHash(functionHashes, t.input);
 
-// Update labels every second
-setInterval(function() {
+        if (func == 'setProduction') {
+          var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
+          console.dir(inputData);
+          $('#transactions').append('<tr><td>' + t.blockNumber +
+            '</td><td>' + from +
+            '</td><td>' + "DAISEE" +
+            '</td><td>setProduction(' + inputData[0].toString() + ')</td></tr>');
+        } else if (func == 'consumeEnergy') {
+          var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
+          console.dir(inputData);
+          $('#transactions').append('<tr><td>' + t.blockNumber +
+            '</td><td>' + from +
+            '</td><td>' + "DAISEE" +
+            '</td><td>consumeEnergy(' + inputData[0].toString() + ')</td></tr>');
+        } else if (func == 'buyEnergy') {
+          var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
+          console.dir(inputData);
+          $('#transactions').append('<tr><td>' + t.blockNumber +
+            '</td><td>' + from +
+            '</td><td>' + "DAISEE" +
+            '</td><td>buyEnergy(' + inputData[0].toString() + ')</td></tr>');
+          } else {
+          // Default log => for debug
+          $('#transactions').append('<tr><td>' + t.blockNumber + '</td><td>' + from + '</td><td>' + to + '</td><td>' + t.input + '</td></tr>')
+        }
+      }
+    });
 
-  // Account
-  $('#coinbase').text(account);
-  //$('#coinbase').text(contractAddress);
+    // Update labels every second
+    setInterval(function() {
 
-  // Account balance in Ether
-  var balanceWei = web3.eth.getBalance(account).toNumber();
-  var balance = web3.fromWei(balanceWei, 'ether');
-  $('#balance').text(balance);
+      // Account
+      $('#coinbase').text(account);
+      //$('#coinbase').text(contractAddress);
 
-  // Block infos
-  var number = web3.eth.blockNumber;
-  if ($('#latestBlock').text() != number)
-    $('#latestBlock').text(number);
+      // Account balance in Ether
+      var balanceWei = web3.eth.getBalance(account).toNumber();
+      var balance = web3.fromWei(balanceWei, 'ether');
+      $('#balance').text(balance);
 
-  var hash = web3.eth.getBlock(number).hash
-  $('#latestBlockHash').text(hash);
+      // Block infos
+      var number = web3.eth.blockNumber;
+      if ($('#latestBlock').text() != number)
+        $('#latestBlock').text(number);
 
-  var timeStamp = web3.eth.getBlock(number).timestamp;
-  var d = new Date(0);
-  d.setUTCSeconds(timeStamp);
-  $('#latestBlockTimestamp').text(d);
+      var hash = web3.eth.getBlock(number).hash
+      $('#latestBlockHash').text(hash);
 
-  // Contract energy balance: call (not state changing)
-  var energyBalance = contract.getEnergyBalance.call();
-  $('#energyBalance').text(energyBalance);
+      var timeStamp = web3.eth.getBlock(number).timestamp;
+      var d = new Date(0);
+      d.setUTCSeconds(timeStamp);
+      $('#latestBlockTimestamp').text(d);
 
-  $('#startedAt').text(now);
+      // Contract energy balance: call (not state changing)
+      var energyBalance = contract.getEnergyBalance.call();
+      $('#energyBalance').text(energyBalance);
 
-}, 1000);
+      $('#startedAt').text(now);
+
+    }, 1000);
+
+})
 
 
 
