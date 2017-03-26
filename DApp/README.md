@@ -2,7 +2,7 @@
 
 ![DzApp screenshot](/images/DzApp.png)  
 
-To launch the server :
+To run the server :
 
 ```bash
 $ export FLASK_APP=server.py
