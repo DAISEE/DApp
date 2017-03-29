@@ -17,7 +17,7 @@ contract Daisee {
         rate = 15 finney; // (= 0.015 ethers)
     }
        
-    // définition des events pour les appels à partir des clients légers (non implémenté)
+    // définition des events pour les appels à partir des clients légers
     event Prod(address from, uint kwh);
     event Cons(address from, uint energy);
     event Buy(address from, address to, uint energy); 
