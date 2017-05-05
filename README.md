@@ -2,12 +2,9 @@
 
 ![DzApp screenshot](/images/DzApp.png)  
 
-Prototype for a decentralized application on a private blockchain (Ethereum). This work is in progress (see [Prototypes](https://github.com/DAISEE/Prototypes#prototype-v01)). 
-
-A new version of the source code is available [here](https://github.com/DAISEE/DApp-v2).  
-
-The proto-documentation [in FR]: https://hackpad.com/DAISEE-Design-Deploy-App-sTLyhw9iOaO
+Prototype for a decentralized application on a private blockchain (Ethereum). This work is in progress (see [Prototypes](https://github.com/DAISEE/Prototypes#prototype-v01)). A new version of the source code is available [here](https://github.com/DAISEE/DApp-v2).  
 
 Sources :   
-* http://hypernephelist.com/2016/06/21/a-simple-smart-contract-ui-web3.html  
-* https://github.com/tomconte/solarchain-dashboard   
+* [The proto-documentation of the DAISEE Dapp (in French)](https://hackpad.com/DAISEE-Design-Deploy-App-sTLyhw9iOaO)
+* [A simple smart contract Web UI using web3.js](http://hypernephelist.com/2016/06/21/a-simple-smart-contract-ui-web3.html)
+* [Bootstrap+jQuery dashboard to dvisualize activity in the SolarChain network](https://github.com/tomconte/solarchain-dashboard)
