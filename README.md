@@ -7,4 +7,4 @@ Prototype for a decentralized application on a private blockchain (Ethereum). Th
 Sources :   
 * [The proto-documentation of the DAISEE Dapp (in French)](https://hackpad.com/DAISEE-Design-Deploy-App-sTLyhw9iOaO)
 * [A simple smart contract Web UI using web3.js](http://hypernephelist.com/2016/06/21/a-simple-smart-contract-ui-web3.html)
-* [Bootstrap+jQuery dashboard to dvisualize activity in the SolarChain network](https://github.com/tomconte/solarchain-dashboard)
+* [Dashboard to visualize the activity in the SolarChain network](https://github.com/tomconte/solarchain-dashboard)
