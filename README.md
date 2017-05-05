@@ -2,9 +2,7 @@
 
 ![DzApp screenshot](/images/DzApp.png)  
 
-Prototype for a decentralized application on a private blockchain (Ethereum). 
-
-This work is in progress (see [Prototypes](https://github.com/DAISEE/Prototypes#prototype-v01)). 
+Prototype for a decentralized application on a private blockchain (Ethereum). This work is in progress (see [Prototypes](https://github.com/DAISEE/Prototypes#prototype-v01)). 
 
 A new version of the source code is available [here](https://github.com/DAISEE/DApp-v2).  
 
